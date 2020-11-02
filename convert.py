@@ -1,5 +1,6 @@
 import feedparser
 import PyRSS2Gen
+import os
 from flask import Flask
 from googletrans import Translator
 
@@ -60,3 +61,9 @@ def fetch():
 
     # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
     return rss.to_xml()
+
+
+if __name__ == '__main__':
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
