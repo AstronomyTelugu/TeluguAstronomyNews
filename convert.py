@@ -1,7 +1,6 @@
 import feedparser
 import PyRSS2Gen
 import os
-import xml.dom.minidom
 from flask import Flask
 from googletrans import Translator
 
@@ -61,8 +60,7 @@ def fetch():
         ))
 
     # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
-    dom = xml.dom.minidom.parse(rss.to_xml(encoding='utf-16'))
-    return dom.toprettyxml()
+    return rss.to_xml(encoding='utf-16')
 
 
 if __name__ == '__main__':
