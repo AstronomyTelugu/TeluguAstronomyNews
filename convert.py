@@ -1,7 +1,9 @@
 import feedparser
 import PyRSS2Gen
+import os
+from flask import Flask
 from googletrans import Translator
-
+app = Flask(__name__)
 translator = Translator()
 
 
@@ -25,33 +27,39 @@ def getHeadlines(rss_url):
         headlines.append([iLink, iTitle, iDescription, iEnclosure[1].href, iEnclosure[1].length, iEnclosure[1].type, iPublished, iPublishedParse])
     return headlines
 
+@app.route('/')
+def fetch():
+    allheadlines = []
 
-allheadlines = []
+    newsurls = {
+        'googlenews': 'https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss',
+    }
 
-newsurls = {
-    'googlenews': 'https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss',
-}
+    for key, url in newsurls.items():
+        allheadlines.extend(getHeadlines(url))
 
-for key, url in newsurls.items():
-    allheadlines.extend(getHeadlines(url))
+    rss = PyRSS2Gen.RSS2(
+        title='తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే',
+        link='https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss',
+        description='తాజా నాసా ఇమేజ్ ఆఫ్ ది డే చిత్రం తెలుగులో',
+        language='te-ind',
+        items=[],
+    )
 
-rss = PyRSS2Gen.RSS2(
-    title='తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే',
-    link='https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss',
-    description='తాజా నాసా ఇమేజ్ ఆఫ్ ది డే చిత్రం తెలుగులో',
-    language='te-ind',
-    items=[],
-)
-
-for hl in allheadlines:
-    rss.items.append(PyRSS2Gen.RSSItem(
-        title=hl[1],
-        link=hl[0],
-        description=hl[2],
-        enclosure=PyRSS2Gen.Enclosure(url=hl[3], length=hl[4], type=hl[5]),
-        pubDate = hl[6],
-    ))
+    for hl in allheadlines:
+        rss.items.append(PyRSS2Gen.RSSItem(
+            title=hl[1],
+            link=hl[0],
+            description=hl[2],
+            enclosure=PyRSS2Gen.Enclosure(url=hl[3], length=hl[4], type=hl[5]),
+            pubDate = hl[6],
+        ))
 
 
-#rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
-print(rss.to_xml())
+    #rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
+    return rss.to_xml()
+
+if __name__ == '__main__':
+    # Bind to PORT if defined, otherwise default to 5000.
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
