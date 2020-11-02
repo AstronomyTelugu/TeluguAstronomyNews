@@ -1,9 +1,10 @@
+
 import feedparser
 import PyRSS2Gen
 import os
 from flask import Flask
 from googletrans import Translator
-from bs4 import BeautifulSoup
+from xml.etree import ElementTree
 
 app = Flask(__name__)
 translator = Translator()
@@ -61,7 +62,7 @@ def fetch():
         ))
 
     # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
-    return BeautifulSoup(rss.to_xml(encoding='utf-16'), "xml").prettify()
+    return ElementTree.tostring(rss.to_xml(), encoding='unicode')
 
 
 if __name__ == '__main__':
