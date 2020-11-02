@@ -1,5 +1,4 @@
 import feedparser
-import datetime
 import PyRSS2Gen
 from googletrans import Translator
 
@@ -15,7 +14,6 @@ def getHeadlines(rss_url):
 
     feed = parseRSS(rss_url)
     for newsitem in feed['items']:
-        print(newsitem)
         iLink = newsitem['link']
         translated = translator.translate(newsitem['title'], src='en', dest='te')
         iTitle = translated.text
@@ -54,4 +52,6 @@ for hl in allheadlines:
         pubDate = hl[6],
     ))
 
-rss.write_xml(open("pyrss2gen.xml", "w", encoding="utf-16"))
+
+#rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
+print(rss.to_xml())
