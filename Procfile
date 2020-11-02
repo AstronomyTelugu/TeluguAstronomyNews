@@ -1,1 +1,1 @@
-worker: python convert.py
+web: python convert.py
