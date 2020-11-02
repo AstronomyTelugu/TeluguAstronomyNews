@@ -1,8 +1,8 @@
 import feedparser
 import PyRSS2Gen
-import os
 from flask import Flask
 from googletrans import Translator
+
 app = Flask(__name__)
 translator = Translator()
 
@@ -24,8 +24,11 @@ def getHeadlines(rss_url):
         iPublished = newsitem['published']
         iPublishedParse = newsitem['published_parsed']
         iEnclosure = newsitem['links']
-        headlines.append([iLink, iTitle, iDescription, iEnclosure[1].href, iEnclosure[1].length, iEnclosure[1].type, iPublished, iPublishedParse])
+        headlines.append(
+            [iLink, iTitle, iDescription, iEnclosure[1].href, iEnclosure[1].length, iEnclosure[1].type, iPublished,
+             iPublishedParse])
     return headlines
+
 
 @app.route('/')
 def fetch():
@@ -52,14 +55,8 @@ def fetch():
             link=hl[0],
             description=hl[2],
             enclosure=PyRSS2Gen.Enclosure(url=hl[3], length=hl[4], type=hl[5]),
-            pubDate = hl[6],
+            pubDate=hl[6],
         ))
 
-
-    #rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
+    # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
     return rss.to_xml()
-
-if __name__ == '__main__':
-    # Bind to PORT if defined, otherwise default to 5000.
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
