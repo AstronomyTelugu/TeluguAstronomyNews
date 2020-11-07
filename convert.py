@@ -66,7 +66,7 @@ def fetch():
         ))
 
     # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
-    soup = BeautifulSoup(rss, 'lxml')
+    soup = BeautifulSoup(rss.to_xml(encoding="utf-16"), 'lxml')
     return soup.prettify()
 
 
