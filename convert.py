@@ -1,7 +1,7 @@
 import feedparser
 import PyRSS2Gen
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from googletrans import Translator
 
 app = Flask(__name__)
@@ -60,7 +60,7 @@ def fetch():
         ))
 
     # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
-    return rss.to_xml(encoding='utf-16')
+    return jsonify(rss.to_xml(encoding='utf-16'))
 
 
 if __name__ == '__main__':
