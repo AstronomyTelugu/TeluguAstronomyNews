@@ -13,3 +13,4 @@ feedparser==6.0.1
 PyRSS2Gen==1.1
 googletrans==3.0.0
 beautifulsoup4==4.9.3
+lxml==4.6.1
