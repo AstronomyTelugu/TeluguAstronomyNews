@@ -1,4 +1,4 @@
-import feedparser
+﻿import feedparser
 import PyRSS2Gen
 import os
 from flask import Flask
@@ -65,7 +65,7 @@ def fetch():
         ))
 
     # rss.write_xml(open("తెలుగులో నాసా ఇమేజ్ ఆఫ్ ది డే.xml", "w", encoding="utf-16"))
-    soup = BeautifulSoup(rss, 'xml')
+    soup = BeautifulSoup(rss, 'lxml')
     return soup.prettify()
 
 
