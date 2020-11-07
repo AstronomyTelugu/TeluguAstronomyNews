@@ -21,11 +21,11 @@ def getHeadlines(rss_url):
         iLink = newsitem['link']
         translated = translator.translate(newsitem['title'], src='en', dest='te')
         if translated is None:
-            return None
+            translated = newsitem['title']
         iTitle = translated.text
         translated = translator.translate(newsitem['description'], src='en', dest='te')
         if translated is None:
-            return None
+            translated = newsitem['description']
         iDescription = translated.text
         iPublished = newsitem['published']
         iPublishedParse = newsitem['published_parsed']
